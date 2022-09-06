@@ -13,7 +13,7 @@ jobs:
       - name: Use secret
         env:
           SUPER_SECRET: ${{ secrets.SUPER_SECRET }}
-        run:
+        run: |
           if [[ -z "$SUPER_SECRET" ]]; then
             echo "No super available"
             exit 1
