@@ -6,6 +6,10 @@ on:
   pull_request_target:
     types: [labeled]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -50,4 +54,4 @@ jobs:
       # This action expects an artifact named github-pages to have been created prior to execution
       - name: GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: paper-spa/deploy-pages@main
