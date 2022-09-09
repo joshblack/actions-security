@@ -1,3 +1,8 @@
+# Links & Resources
+#
+# - https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+# - https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-github-packages
+
 name: publish
 on:
   pull_request_target:

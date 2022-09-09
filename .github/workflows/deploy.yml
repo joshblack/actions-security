@@ -1,0 +1,53 @@
+# https://github.blog/changelog/2021-12-16-github-pages-using-github-actions-for-builds-and-deployments-for-public-repositories/
+# https://github.com/actions/deploy-pages#deploy-pages
+
+name: deploy
+on:
+  pull_request_target:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.head.repo.full_name == 'joshblack/actions-security' && contains(github.event.pull_request.labels.*.name, 'Deploy Preview') }}
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm ci
+      - run: npm run build --if-present
+      - name: Archive build output
+        run: "tar --dereference --directory gh-pages -cvf artifact.tar ."
+      - name: Upload artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: github-pages
+          path: artifact.tar
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.head.repo.full_name == 'joshblack/actions-security' && contains(github.event.pull_request.labels.*.name, 'Deploy Preview') }}
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # This action expects an artifact named github-pages to have been created prior to execution
+      - name: GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
