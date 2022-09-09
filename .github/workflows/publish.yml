@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://npm.pkg.github.com'
       - name: Version
         run: echo "::set-output name=version::$(git rev-parse --short HEAD)"
         id: version
@@ -20,7 +20,6 @@ jobs:
         run: |
           cd packages/add
           echo "$(jq '.version = "0.0.0-${{ steps.version.outputs.version }}"' package.json )" > package.json
-          cat package.json
-          # npm publish
+          npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
