@@ -13,12 +13,13 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
-      - name: npm publish
+      - name: Run npm publish
         run: |
           $HASH="$(git rev-parse --short "$GITHUB_SHA")"
-          cd packages/add
-          echo "$(jq '.version = "0.0.0-$HASH"' package.json )" > package.json
-          cat package.json
+          echo $HASH
+          # cd packages/add
+          # echo "$(jq '.version = "0.0.0-$HASH"' package.json )" > package.json
+          # cat package.json
           # npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
