@@ -15,7 +15,7 @@ jobs:
       - run: npm ci
       - name: npm publish
         run: |
-          $HASH=$(git rev-parse --short "$GITHUB_SHA")
+          $HASH="$(git rev-parse --short "$GITHUB_SHA")"
           cd packages/add
           echo "$(jq '.version = "0.0.0-$HASH"' package.json )" > package.json
           cat package.json
