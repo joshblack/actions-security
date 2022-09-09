@@ -1,0 +1,9 @@
+{
+  "name": "@joshblack/add",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": "./index.js",
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
+  }
+}
