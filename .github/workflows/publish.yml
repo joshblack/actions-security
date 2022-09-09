@@ -7,8 +7,14 @@ name: publish
 on:
   pull_request_target:
     types: [labeled]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   packages: write
+
 jobs:
   canary:
     runs-on: ubuntu-latest
