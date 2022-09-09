@@ -14,6 +14,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Version
         run: echo "::set-output name=version::$(git rev-parse --short HEAD)"
+        id: version
       - run: npm ci
       - name: Run npm publish
         run: |
