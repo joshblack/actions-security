@@ -4,7 +4,7 @@
 name: deploy
 on:
   pull_request_target:
-    types: [labeled, synchronize]
+    types: [labeled, opened, synchronize]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
