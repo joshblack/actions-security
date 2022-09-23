@@ -1,4 +1,4 @@
-name: secret-token
+name: ci
 on:
   push:
     branches:
@@ -11,15 +11,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  secret:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Use secret
-        env:
-          SUPER_SECRET: ${{ secrets.SUPER_SECRET }}
-        run: |
-          if [[ -z "$SUPER_SECRET" ]]; then
-            echo "No secret available"
-            exit 1
-          fi
+      - run: |
+          echo "Running ci checks"
