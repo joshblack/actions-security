@@ -46,7 +46,7 @@ jobs:
               owner: repository.owner.login,
               repo: repository.name,
               sha: '${{ github.sha }}',
-              status: 'success',
-              context: 'publish / canary',
+              state: 'success',
+              context: 'publish/canary',
               description: `Published v0.0.0-${{ steps.version.outputs.version }}`
             });
