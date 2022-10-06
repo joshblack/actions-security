@@ -47,6 +47,6 @@ jobs:
               repo: repository.name,
               sha: '${{ github.sha }}',
               state: 'success',
-              context: 'publish/canary',
-              description: `Published v0.0.0-${{ steps.version.outputs.version }}`
+              context: 'publish/npm',
+              description: `v0.0.0-${{ steps.version.outputs.version }}`
             });
