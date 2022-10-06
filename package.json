@@ -6,8 +6,7 @@
   "scripts": {
     "build": "mkdir gh-pages && echo '<html><head><meta charset=\"utf8\"></head><body><h1>Test</h1></body></html>' > gh-pages/index.html",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=666c56ce4c58"
+    "build-storybook": "build-storybook"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
@@ -25,9 +24,5 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  },
-  "name": "",
-  "version": "",
-  "readme": "ERROR: No README data found!",
-  "_id": "@"
+  }
 }
