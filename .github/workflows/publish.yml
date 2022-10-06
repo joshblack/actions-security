@@ -53,3 +53,15 @@ jobs:
               description: `v0.0.0-${{ steps.version.outputs.version }}`,
               target_url: `https://unpkg.com/${{ steps.publish.outputs.package }}/`
             });
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const { pull_request, repository } = context.payload;
+            await github.rest.repos.createDeployment({
+              owner: repository.owner.login,
+              repo: repository.name,
+              ref: pull_request.head.ref,
+              environment: 'npm',
+              transient_environment: true,
+              description: `v0.0.0-${{ steps.version.outputs.version }}`,
+            });
