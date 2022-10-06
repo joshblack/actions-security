@@ -43,8 +43,8 @@ jobs:
             await github.rest.repos.createCommitStatus({
               owner: repository.owner.login,
               repo: repository.name,
-              sha: context.payload.workflow_run.head_sha,
+              sha: ${{ github.sha }},
               status: 'success',
-              context: 'deploy / canary',
+              context: 'publish / canary',
               description: `Published v0.0.0-${{ steps.version.outputs.version }}`
             });
