@@ -1,4 +1,4 @@
-name: secret-token
+name: ci
 on:
   push:
     branches:
@@ -11,15 +11,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  secret:
+  ci:
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
     steps:
       - uses: actions/checkout@v3
-      - name: Use secret
-        env:
-          SUPER_SECRET: ${{ secrets.SUPER_SECRET }}
-        run: |
-          if [[ -z "$SUPER_SECRET" ]]; then
-            echo "No secret available"
-            exit 1
-          fi
+      - run: |
+          echo "Running ci checks"
+
+  storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build-storybook
+      - uses: actions/upload-artifact@v3
+        with:
+          name: storybook
+          path: storybook-static/
