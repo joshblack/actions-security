@@ -41,35 +41,35 @@ jobs:
           echo "::set-output name=package::$(jq -r .name package.json)@${{ steps.version.outputs.version }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       - uses: actions/github-script@v6
-         with:
-           script: |
-             const { pull_request, repository } = context.payload;
-             await github.rest.repos.createCommitStatus({
-               owner: repository.owner.login,
-               repo: repository.name,
-               sha: pull_request.head.sha,
-               state: 'success',
-               context: 'publish / npm',
-               description: `v0.0.0-${{ steps.version.outputs.version }}`,
-               target_url: `https://unpkg.com/${{ steps.publish.outputs.package }}/`
-             });
-        - uses: actions/github-script@v6
-          with:
-            script: |
-              const { pull_request, repository } = context.payload;
-              const deployment = await github.rest.repos.createDeployment({
-                owner: repository.owner.login,
-                repo: repository.name,
-                ref: pull_request.head.ref,
-                environment: 'npm',
-                required_contexts: ['ci'],
-              });
-              await github.rest.repos.createDeploymentStatus({
-                owner: repository.owner.login,
-                repo: repository.name,
-                deployment_id: deployment.id,
-                state: 'success',
-                log_url: 'https://github.com/joshblack/actions-security/pkgs/npm/add',
-                description: `v0.0.0-${{ steps.version.outputs.version }}`,
-              });
+      - uses: actions/github-script@v6
+        with:
+         script: |
+           const { pull_request, repository } = context.payload;
+           await github.rest.repos.createCommitStatus({
+             owner: repository.owner.login,
+             repo: repository.name,
+             sha: pull_request.head.sha,
+             state: 'success',
+             context: 'publish / npm',
+             description: `v0.0.0-${{ steps.version.outputs.version }}`,
+             target_url: `https://unpkg.com/${{ steps.publish.outputs.package }}/`
+           });
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const { pull_request, repository } = context.payload;
+            const deployment = await github.rest.repos.createDeployment({
+              owner: repository.owner.login,
+              repo: repository.name,
+              ref: pull_request.head.ref,
+              environment: 'npm',
+              required_contexts: ['ci'],
+            });
+            await github.rest.repos.createDeploymentStatus({
+              owner: repository.owner.login,
+              repo: repository.name,
+              deployment_id: deployment.id,
+              state: 'success',
+              log_url: 'https://github.com/joshblack/actions-security/pkgs/npm/add',
+              description: `v0.0.0-${{ steps.version.outputs.version }}`,
+            });
