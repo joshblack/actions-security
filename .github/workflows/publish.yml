@@ -42,11 +42,4 @@ jobs:
         with:
           script: |
             const { repository } = context.payload;
-            await github.rest.repos.createCommitStatus({
-              owner: repository.owner.login,
-              repo: repository.name,
-              sha: '${{ github.sha }}',
-              state: 'success',
-              context: 'publish/npm',
-              description: `v0.0.0-${{ steps.version.outputs.version }}`
-            });
+            console.log(JSON.stringify(context.payload, null, 2));
