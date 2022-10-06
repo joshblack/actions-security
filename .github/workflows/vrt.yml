@@ -31,11 +31,11 @@ jobs:
                 archive_format: 'zip',
             });
             fs.writeFileSync('${{github.workspace}}/storybook.zip', Buffer.from(download.data));
-      - run: unzip storybook.zip storybook-static
-      - name: Chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{ secrets.CHROMATIC_KEY }}
-          autoAcceptChanges: github.ref == 'refs/heads/main'
-          onlyChanged: true
-          storybookBuildDir: storybook-static
+      - run: unzip --help
+      # - name: Chromatic
+        # uses: chromaui/action@v1
+        # with:
+          # projectToken: ${{ secrets.CHROMATIC_KEY }}
+          # autoAcceptChanges: github.ref == 'refs/heads/main'
+          # onlyChanged: true
+          # storybookBuildDir: storybook-static
