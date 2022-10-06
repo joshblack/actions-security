@@ -22,8 +22,8 @@ jobs:
         uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
       - uses: actions/cache@v2
         with:
           path: ~/.npm
@@ -42,7 +42,6 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.head.repo.full_name == 'joshblack/actions-security' && contains(github.event.pull_request.labels.*.name, 'Deploy Preview') }}
     needs: build
     permissions:
       pages: write
