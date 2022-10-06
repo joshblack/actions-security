@@ -31,7 +31,7 @@ jobs:
                 archive_format: 'zip',
             });
             fs.writeFileSync('${{github.workspace}}/storybook.zip', Buffer.from(download.data));
-      - run: unzip storybook.zip
+      - run: unzip storybook.zip storybook-static
       - name: Chromatic
         uses: chromaui/action@v1
         with:
