@@ -32,14 +32,24 @@ jobs:
         id: version
       - run: npm ci
       - name: Run npm publish
+        id: publish
         run: |
           cd packages/add
           echo "$(jq '.version = "0.0.0-${{ steps.version.outputs.version }}"' package.json )" > package.json
           npm publish --tag canary
+          echo "::set-output name=package::$(jq -r .name package.json)@${{ steps.version.outputs.version }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/github-script@v6
         with:
           script: |
-            const { repository } = context.payload;
-            console.log(JSON.stringify(context.payload, null, 2));
+            const { pull_request, repository } = context.payload;
+            await github.rest.repos.createCommitStatus({
+              owner: repository.owner.login,
+              repo: repository.name,
+              sha: pull_request.head.sha,
+              state: 'success',
+              context: 'publish / npm',
+              description: `v0.0.0-${{ steps.version.outputs.version }}`,
+              target_url: `https://unpkg.com/${{ steps.publish.outputs.package }}/`
+            });
