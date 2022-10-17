@@ -40,7 +40,7 @@ jobs:
           echo "::set-output name=package::$(jq -r .name package.json)@${{ steps.version.outputs.version }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v6.3.3
         with:
          script: |
            const { pull_request, repository } = context.payload;
