@@ -1,0 +1,15 @@
+name: workflow-run
+on:
+  workflow_run:
+    workflows: [ci]
+    types:
+      - completed
+
+jobs:
+  event:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3.1.0
+        with:
+          script: |
+            console.log(JSON.stringify(${{ github.event }}, null, 2))
