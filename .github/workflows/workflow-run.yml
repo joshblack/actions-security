@@ -12,4 +12,18 @@ jobs:
       - uses: actions/github-script@v3.1.0
         with:
           script: |
-            console.log(JSON.stringify(context, null, 2))
+            const { payload } = context;
+            const run = payload.workflow_run;
+            const pull_requests = run.pull_requests;
+            if (pull_requests.length > 1) {
+              core.warn('More than one pull request associated with this workflow_run');
+            }
+
+            const [pull_request] = pull_requests;
+            const labels = octokit.rest.issues.listLabelsOnIssue({
+              owner: payload.repository.owner.login,
+              repo: payload.repository.name,
+              issue_number: pull_request.number,
+            });
+
+            console.log(labels);
