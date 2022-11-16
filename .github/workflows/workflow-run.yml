@@ -12,4 +12,4 @@ jobs:
       - uses: actions/github-script@v3.1.0
         with:
           script: |
-            console.log(JSON.stringify(context, null, 2))
+            console.log(${{ github.event }})
