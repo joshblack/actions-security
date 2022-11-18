@@ -18,6 +18,10 @@ jobs:
             if (pull_requests.length > 1) {
               core.warn('More than one pull request associated with this workflow_run');
             }
+            
+            console.log(payload.workflow_run);
+            
+            console.log(pull_requests);
 
             const [pull_request] = pull_requests;
             const labels = await github.issues.listLabelsOnIssue({
