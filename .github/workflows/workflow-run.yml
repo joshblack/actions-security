@@ -11,6 +11,7 @@ jobs:
     if: github.event.workflow_run.event == 'pull_request'
     steps:
       - uses: actions/github-script@v3.1.0
+        id: script
         with:
           script: |
             const { payload } = context;
@@ -25,10 +26,12 @@ jobs:
             console.log(pull_requests);
 
             const [pull_request] = pull_requests;
-            const labels = await github.issues.listLabelsOnIssue({
+            const { data: labels } = await github.issues.listLabelsOnIssue({
               owner: payload.repository.owner.login,
               repo: payload.repository.name,
               issue_number: pull_request.number,
             });
 
-            console.log(labels);
+            core.setOutput('labels', labels);
+      - if: contains(steps.script.outputs.labels.*.name, 'test-label')
+        run: echo 'success'
