@@ -20,7 +20,7 @@ jobs:
             }
 
             const [pull_request] = pull_requests;
-            const labels = octokit.rest.issues.listLabelsOnIssue({
+            const labels = github.rest.issues.listLabelsOnIssue({
               owner: payload.repository.owner.login,
               repo: payload.repository.name,
               issue_number: pull_request.number,
