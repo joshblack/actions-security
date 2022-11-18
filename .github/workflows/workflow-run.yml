@@ -31,7 +31,9 @@ jobs:
               repo: payload.repository.name,
               issue_number: pull_request.number,
             });
+           
+            console.log(labels)
 
-            core.setOutput('labels', labels);
-      - if: contains(steps.script.outputs.labels.*.name, 'test-label')
+            return labels
+      - if: ${{ contains(steps.script.outputs.result.*.name, 'test-label') }}
         run: echo 'success'
