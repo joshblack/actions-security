@@ -20,7 +20,7 @@ jobs:
             }
 
             const [pull_request] = pull_requests;
-            const labels = github.rest.issues.listLabelsOnIssue({
+            const labels = github.issues.listLabelsOnIssue({
               owner: payload.repository.owner.login,
               repo: payload.repository.name,
               issue_number: pull_request.number,
